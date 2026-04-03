@@ -1,0 +1,14 @@
+{
+  "delivery": {
+    "nairobi24h": true
+  },
+  "ai": {
+    "dynamicPricingSuggestions": true,
+    "chatbotTone": "professional-warm"
+  },
+  "businessHours": {
+    "Monday": "9:00 AM - 5:00 PM",
+    "Tuesday": "9:00 AM - 5:00 PM",
+    "Wednesday": "9:00 AM - 5:00 PM"
+  }
+}

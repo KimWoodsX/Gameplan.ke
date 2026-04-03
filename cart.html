@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart & Product Inquiry | GAMEPLAN</title>
+  <meta name="description" content="Complete your GAMEPLAN gaming product inquiry without creating an account. Items and contact details are sent directly to the admin via WhatsApp and future portal." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="cart-page">
+  <div class="bg-cinematic" aria-hidden="true">
+    <div class="bg-layer bg-layer--main"></div>
+  </div>
+  <header class="site-header" id="top">
+    <nav class="nav">
+      <a href="index.html" class="logo">GAMEPLAN</a>
+      <ul class="nav-links">
+        <li><a href="index.html#hero" class="nav-link">Home</a></li>
+        <li><a href="services.html" class="nav-link">Services</a></li>
+        <li><a href="shop.html" class="nav-link">Shop</a></li>
+        <li><a href="learn.html" class="nav-link">Learn</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="index.html#booking" class="btn btn-primary btn-primary--small">Book a Repair</a>
+        <a href="wishlist.html" class="btn btn-outline btn-wishlist">
+          ♡ Wishlist
+        </a>
+        <a href="cart.html" class="btn btn-secondary btn-cart">
+          Cart <span id="cart-count" class="cart-count-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <h1>Your Cart &amp; Inquiry Details</h1>
+          <p>
+            Review the products you’re interested in, then share your contact details.
+            No login or signup is required – your cart details are packaged and sent directly to the GAMEPLAN admin via WhatsApp
+            and can be connected to an admin portal in the future.
+          </p>
+        </header>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+          <h3>Selected Products</h3>
+          <p id="cart-empty" style="display:none;color:var(--text-soft);font-size:0.9rem;">Your cart is currently empty. Add items from the Home or Shop page.</p>
+          <ul id="cart-items" style="margin-top:0.75rem;padding-left:1.1rem;font-size:0.92rem;">
+          </ul>
+        </div>
+
+        <form id="cart-checkout-form" class="cart-form">
+          <div class="form-group">
+            <label for="cart-name">Name</label>
+            <input type="text" id="cart-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="cart-whatsapp">WhatsApp Number</label>
+            <input type="tel" id="cart-whatsapp" name="whatsapp" placeholder="e.g. +2547..." required />
+          </div>
+          <div class="form-group">
+            <label for="cart-location">Location (Town / Estate)</label>
+            <input type="text" id="cart-location" name="location" placeholder="e.g. Nairobi, Kasarani" />
+          </div>
+          <div class="form-group">
+            <label for="cart-notes">Extra notes</label>
+            <textarea id="cart-notes" name="notes" rows="3" placeholder="Add preferred model, color, quantity, preference..."></textarea>
+          </div>
+          <div class="cart-actions" style="display:flex;flex-direction:column;gap:0.5rem;">
+            <button type="submit" class="btn">Send Inquiry via WhatsApp</button>
+            <button type="button" id="cart-proceed-btn" class="btn btn-primary" disabled>
+              Proceed to Checkout
+            </button>
+          </div>
+          <p id="cart-status" class="form-status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- MPESA checkout payment modal -->
+  <div id="payment-modal" class="payment-modal-overlay" aria-hidden="true">
+    <div class="payment-modal-inner" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title">
+      <button type="button" class="payment-modal-close" id="payment-modal-close" aria-label="Close payment instructions">&times;</button>
+      <section id="payment-section" class="payment-modal-content">
+        <header class="section-header" style="margin-bottom:1rem;">
+          <h2 id="payment-modal-title">Checkout Payment</h2>
+          <p>
+            Step 2 of your order: pay manually via MPESA using the details below, then tap "I Have Paid" to confirm via WhatsApp.
+          </p>
+        </header>
+        <div class="payment-layout">
+          <article class="payment-panel" aria-label="MPESA payment instructions">
+            <p class="payment-mpesa-heading">MPESA PAYMENT DETAILS</p>
+
+            <div class="payment-mpesa-row">
+              <p class="payment-mpesa-label">Send Money</p>
+              <p class="payment-mpesa-number">0720&nbsp;968&nbsp;268</p>
+            </div>
+
+            <div class="payment-mpesa-row">
+              <p class="payment-mpesa-label">Lipa na MPESA (Till)</p>
+              <p class="payment-mpesa-till">8314252</p>
+            </div>
+
+            <p class="payment-mpesa-note">
+              This is a manual payment step. We do <strong>not</strong> auto-charge your MPESA account. Use the numbers above in your own MPESA app, then confirm below.
+            </p>
+
+            <div class="payment-actions">
+              <div class="form-group payment-ref-input">
+                <label for="modal-payment-ref">MPESA Confirmation Code</label>
+                <input type="text" id="modal-payment-ref" placeholder="e.g. QJD3XYZ1A" />
+              </div>
+              <button type="button" id="modal-payment-confirm-btn" class="btn btn-primary" disabled>
+                I Have Paid
+              </button>
+              <p id="modal-payment-status" class="form-status" aria-live="polite"></p>
+            </div>
+          </article>
+
+          <article class="payment-panel" aria-label="Order summary">
+            <h3>Order Summary</h3>
+            <div id="modal-payment-summary" style="font-size:0.9rem;"></div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; <span id="year"></span> GAMEPLAN. All rights reserved.</p>
+      <a href="#top" class="back-to-top">Back to top</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

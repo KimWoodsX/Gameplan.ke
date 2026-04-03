@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Gaming Gear | GAMEPLAN</title>
+  <meta name="description" content="Shop original controllers, custom console covers, gaming wheels, VR headsets, and more from GAMEPLAN Kenya." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="shop-page">
+  <div class="bg-cinematic" aria-hidden="true">
+    <div class="bg-layer bg-layer--main"></div>
+  </div>
+  <header class="site-header" id="top">
+    <nav class="nav">
+      <a href="index.html" class="logo">GAMEPLAN</a>
+      <ul class="nav-links">
+        <li><a href="index.html#hero" class="nav-link">Home</a></li>
+        <li><a href="services.html" class="nav-link">Services</a></li>
+        <li><a href="shop.html" class="nav-link nav-link--active">Shop</a></li>
+        <li><a href="learn.html" class="nav-link">Learn</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="index.html#booking" class="btn btn-primary btn-primary--small">Book a Repair</a>
+        <a href="wishlist.html" class="btn btn-outline btn-wishlist">
+          â™¡ Wishlist
+        </a>
+        <a href="cart.html" class="btn btn-secondary btn-cart">
+          Cart <span id="cart-count" class="cart-count-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <h1>Shop Gaming Gear</h1>
+          <p>Global product visibility, Kenya-based fulfillment, and gamer-approved accessories.</p>
+        </header>
+
+        <section>
+          <header class="section-header">
+            <h2>Featured Products</h2>
+            <p>Top picks from our latest gaming gear collection.</p>
+          </header>
+          <div id="admin-products-grid" class="grid grid-4" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;"></div>
+        </section>
+
+
+        <section class="section" style="padding-left:0;padding-right:0;">
+          <div class="section-inner">
+            <header class="section-header">
+              <h2>How Ordering Works</h2>
+              <p>Inquiry-based and direct purchase options designed for Kenyan and international gamers.</p>
+            </header>
+            <div class="grid grid-3">
+              <article class="card">
+                <h3>1. Browse &amp; Inquire</h3>
+                <p>Contact us on WhatsApp for current stock, pricing, and compatibility checks.</p>
+              </article>
+              <article class="card">
+                <h3>2. Confirm &amp; Pay</h3>
+                <p>We confirm availability, warranty, and shipping or pickup options.</p>
+              </article>
+              <article class="card">
+                <h3>3. Fulfillment</h3>
+                <p>Kenya-based fulfillment with options for local pickup, delivery, or courier shipping.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; <span id="year"></span> GAMEPLAN. All rights reserved.</p>
+      <a href="#top" class="back-to-top">Back to top</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", async () => {
+      const grid = document.getElementById("admin-products-grid");
+      if (!grid) return;
+      try {
+        const res = await fetch("/api/products");
+        if (!res.ok) return;
+        const data = await res.json();
+        const items = (data && data.items) || [];
+        if (!items.length) return;
+
+        grid.innerHTML = items
+          .map((p) => {
+            const img = p.imageUrl || "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&q=80";
+            const price = p.priceKES != null ? `KES ${p.priceKES.toLocaleString('en-KE')}` : "Ask for price";
+            const compat = (p.specs && (p.specs.compatibility || p.specs.platform)) || "";
+            return `
+              <article class="card product-card">
+                <img src="${img}" alt="${(p.name || "").replace(/"/g, "&quot;")}" class="product-image" loading="lazy" />
+                <h3>${p.name || "Unnamed product"}</h3>
+                <p class="meta"><strong>Category:</strong> ${p.category || ""}</p>
+                ${compat ? `<p class="meta"><strong>Compatibility:</strong> ${compat}</p>` : ""}
+                <p class="meta"><strong>Price:</strong> ${price}</p>
+                <div class="section-cta-wrap">
+                  <button type="button" class="btn btn-secondary" data-add-to-cart
+                    data-product-id="${p.id}"
+                    data-product-name="${(p.name || "").replace(/"/g, "&quot;")}"
+                    data-product-category="${p.category || ""}"
+                    data-product-compat="${compat}">
+                    Add to Cart
+                  </button>
+                  <button type="button" class="btn btn-outline wishlist-btn" data-wishlist-toggle
+                    data-product-id="${p.id}">
+                    â™¡ Wishlist
+                  </button>
+                  <button type="button" class="btn btn-outline" data-share-product
+                    data-product-id="${p.id}"
+                    data-product-name="${(p.name || "").replace(/"/g, "&quot;")}">
+                    Share
+                  </button>
+                  <a href="https://wa.me/254720968268" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Buy Now / WhatsApp Inquiry</a>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        // wire Add to Cart buttons for admin products
+        const adminCartButtons = grid.querySelectorAll('[data-add-to-cart]');
+        adminCartButtons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (typeof addToCartFromElement === 'function') {
+              if (btn.classList.contains('btn-disabled')) {
+                window.location.href = 'cart.html';
+                return;
+              }
+              addToCartFromElement(btn);
+            }
+          });
+        });
+
+        // re-sync cart + wishlist + share buttons for admin products
+        if (typeof syncCartButtons === "function") {
+          syncCartButtons();
+        }
+        if (typeof initWishlistButtons === "function") {
+          initWishlistButtons(grid);
+        }
+        if (typeof attachShareHandlers === "function") {
+          attachShareHandlers(grid);
+        }
+      } catch (e) {
+        console.error("Failed to load admin products", e);
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>

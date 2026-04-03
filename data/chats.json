@@ -1,0 +1,278 @@
+[
+  {
+    "timestamp": "2026-01-21T12:08:08.839Z",
+    "message": "PS5 CONSOLE",
+    "context": {
+      "url": "http://localhost:3000/index.html#hero",
+      "path": "/index.html",
+      "cart": [
+        {
+          "id": "psn-gift-card-50",
+          "name": "PlayStation Network Gift Card KES 5,000",
+          "category": "gift-card",
+          "compatibility": "",
+          "quantity": 1
+        },
+        {
+          "id": "ps5-dualsense-controller",
+          "name": "PS5 DualSense Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 5, some PC support",
+          "quantity": 1
+        },
+        {
+          "id": "ps4-dualshock-controller",
+          "name": "PS4 DualShock Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 4, some PC support",
+          "quantity": 1
+        }
+      ]
+    },
+    "reply": "I don't have full AI capabilities configured yet, but I can connect you to our support team on WhatsApp at +254720968268 or via email at GamePlan.KE@gmail.com.",
+    "source": "fallback-no-api-key"
+  },
+  {
+    "timestamp": "2026-01-21T12:09:22.187Z",
+    "message": "GIFT CARD",
+    "context": {
+      "url": "http://localhost:3000/index.html#hero",
+      "path": "/index.html",
+      "cart": [
+        {
+          "id": "psn-gift-card-50",
+          "name": "PlayStation Network Gift Card KES 5,000",
+          "category": "gift-card",
+          "compatibility": "",
+          "quantity": 1
+        },
+        {
+          "id": "ps5-dualsense-controller",
+          "name": "PS5 DualSense Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 5, some PC support",
+          "quantity": 1
+        },
+        {
+          "id": "ps4-dualshock-controller",
+          "name": "PS4 DualShock Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 4, some PC support",
+          "quantity": 1
+        }
+      ]
+    },
+    "reply": "I don't have full AI capabilities configured yet, but I can connect you to our support team on WhatsApp at +254720968268 or via email at GamePlan.KE@gmail.com.",
+    "source": "fallback-no-api-key"
+  },
+  {
+    "timestamp": "2026-01-21T12:10:02.848Z",
+    "message": "ARE PS4 BEING REPAIRES",
+    "context": {
+      "url": "http://localhost:3000/index.html#hero",
+      "path": "/index.html",
+      "cart": [
+        {
+          "id": "psn-gift-card-50",
+          "name": "PlayStation Network Gift Card KES 5,000",
+          "category": "gift-card",
+          "compatibility": "",
+          "quantity": 1
+        },
+        {
+          "id": "ps5-dualsense-controller",
+          "name": "PS5 DualSense Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 5, some PC support",
+          "quantity": 1
+        },
+        {
+          "id": "ps4-dualshock-controller",
+          "name": "PS4 DualShock Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 4, some PC support",
+          "quantity": 1
+        }
+      ]
+    },
+    "reply": "I don't have full AI capabilities configured yet, but I can connect you to our support team on WhatsApp at +254720968268 or via email at GamePlan.KE@gmail.com.",
+    "source": "fallback-no-api-key"
+  },
+  {
+    "timestamp": "2026-01-21T12:11:39.956Z",
+    "message": "PS4 CONSOLE",
+    "context": {
+      "url": "http://localhost:3000/index.html#hero",
+      "path": "/index.html",
+      "cart": [
+        {
+          "id": "psn-gift-card-50",
+          "name": "PlayStation Network Gift Card KES 5,000",
+          "category": "gift-card",
+          "compatibility": "",
+          "quantity": 1
+        },
+        {
+          "id": "ps5-dualsense-controller",
+          "name": "PS5 DualSense Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 5, some PC support",
+          "quantity": 1
+        },
+        {
+          "id": "ps4-dualshock-controller",
+          "name": "PS4 DualShock Wireless Controller",
+          "category": "controller",
+          "compatibility": "PlayStation 4, some PC support",
+          "quantity": 1
+        }
+      ]
+    },
+    "reply": "I don't have full AI capabilities configured yet, but I can connect you to our support team on WhatsApp at +254720968268 or via email at GamePlan.KE@gmail.com.",
+    "source": "fallback-no-api-key"
+  },
+  {
+    "id": "chat-1775209729968",
+    "timestamp": "2026-04-03T09:48:49.968Z",
+    "message": "call of duty custom plate",
+    "reply": "I can help you with product prices, services, repair tickets, and bookings. Try asking about a product price, a repair service, or say you want to book an appointment.",
+    "intent": "general",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "call of duty custom plate",
+    "bot_response": "I can help you with product prices, services, repair tickets, and bookings. Try asking about a product price, a repair service, or say you want to book an appointment.",
+    "created_at": "2026-04-03T09:48:49.968Z"
+  },
+  {
+    "id": "chat-1775209760332",
+    "timestamp": "2026-04-03T09:49:20.332Z",
+    "message": "yes tell me",
+    "reply": "I can help you with product prices, services, repair tickets, and bookings. Try asking about a product price, a repair service, or say you want to book an appointment.",
+    "intent": "general",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "yes tell me",
+    "bot_response": "I can help you with product prices, services, repair tickets, and bookings. Try asking about a product price, a repair service, or say you want to book an appointment.",
+    "created_at": "2026-04-03T09:49:20.332Z"
+  },
+  {
+    "id": "chat-1775235393124",
+    "timestamp": "2026-04-03T16:56:33.124Z",
+    "message": "hello",
+    "reply": "Hello! Welcome to GAMEPLAN. I can help with product prices, console repairs, service bookings, and more. Try asking about a product, describing a repair issue, or say you'd like to book an appointment.",
+    "intent": "greeting",
+    "conversion": "Greeting",
+    "source": "db_processed",
+    "user_message": "hello",
+    "bot_response": "Hello! Welcome to GAMEPLAN. I can help with product prices, console repairs, service bookings, and more. Try asking about a product, describing a repair issue, or say you'd like to book an appointment.",
+    "created_at": "2026-04-03T16:56:33.124Z"
+  },
+  {
+    "id": "chat-1775241776704",
+    "timestamp": "2026-04-03T18:42:53.522Z",
+    "message": "ps5 console",
+    "reply": "I can help with product prices, repair services, and booking appointments. Try asking about a specific product, describing your console issue, or saying you'd like to book a service. You can also reach us on WhatsApp at +254720968268.",
+    "intent": "general",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "ps5 console",
+    "bot_response": "I can help with product prices, repair services, and booking appointments. Try asking about a specific product, describing your console issue, or saying you'd like to book a service. You can also reach us on WhatsApp at +254720968268.",
+    "created_at": "2026-04-03T18:42:53.522Z"
+  },
+  {
+    "id": "chat-1775242343166",
+    "timestamp": "2026-04-03T18:52:20.929Z",
+    "message": "how much is the PS5 laser?",
+    "reply": "PS5 LASER: KES 4,000. Currently in stock.",
+    "intent": "product_inquiry",
+    "conversion": "Product viewed",
+    "source": "db_processed",
+    "user_message": "how much is the PS5 laser?",
+    "bot_response": "PS5 LASER: KES 4,000. Currently in stock.",
+    "created_at": "2026-04-03T18:52:20.929Z"
+  },
+  {
+    "id": "chat-1775242343781",
+    "timestamp": "2026-04-03T18:52:23.176Z",
+    "message": "price of flamey ps5 controller",
+    "reply": "FLAMEY PS5 CONTROLLER: KES 1,500. Currently in stock.",
+    "intent": "product_inquiry",
+    "conversion": "Product viewed",
+    "source": "db_processed",
+    "user_message": "price of flamey ps5 controller",
+    "bot_response": "FLAMEY PS5 CONTROLLER: KES 1,500. Currently in stock.",
+    "created_at": "2026-04-03T18:52:23.176Z"
+  },
+  {
+    "id": "chat-1775242345731",
+    "timestamp": "2026-04-03T18:52:23.785Z",
+    "message": "how much is the logitech driving wheel?",
+    "reply": "Logitech Driving Wheel: price available on request (contact us on WhatsApp at +254720968268). Currently in stock — Logitech driving wheels for PlayStation, Xbox and PC..",
+    "intent": "product_inquiry",
+    "conversion": "Product viewed",
+    "source": "db_processed",
+    "user_message": "how much is the logitech driving wheel?",
+    "bot_response": "Logitech Driving Wheel: price available on request (contact us on WhatsApp at +254720968268). Currently in stock — Logitech driving wheels for PlayStation, Xbox and PC..",
+    "created_at": "2026-04-03T18:52:23.785Z"
+  },
+  {
+    "id": "chat-1775242545485",
+    "timestamp": "2026-04-03T18:55:43.958Z",
+    "message": "ps5 console",
+    "reply": "I can help with product prices, repair services, and booking appointments. Try asking about a specific product, describing your console issue, or saying you'd like to book a service. You can also reach us on WhatsApp at +254720968268.",
+    "intent": "general",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "ps5 console",
+    "bot_response": "I can help with product prices, repair services, and booking appointments. Try asking about a specific product, describing your console issue, or saying you'd like to book a service. You can also reach us on WhatsApp at +254720968268.",
+    "created_at": "2026-04-03T18:55:43.958Z"
+  },
+  {
+    "id": "chat-1775243480654",
+    "timestamp": "2026-04-03T19:11:14.977Z",
+    "message": "price of a ps5 console",
+    "reply": "PlayStation 5 Console: price available on request (contact us on WhatsApp at +254720968268). Currently in stock — PlayStation 5 console with PlayStation Network support..",
+    "intent": "product_inquiry",
+    "conversion": "Product viewed",
+    "source": "db_processed",
+    "user_message": "price of a ps5 console",
+    "bot_response": "PlayStation 5 Console: price available on request (contact us on WhatsApp at +254720968268). Currently in stock — PlayStation 5 console with PlayStation Network support..",
+    "created_at": "2026-04-03T19:11:14.977Z"
+  },
+  {
+    "id": "chat-1775243505638",
+    "timestamp": "2026-04-03T19:11:37.744Z",
+    "message": "no tell me the price of it",
+    "reply": "I couldn't find that product in our catalog. Try searching by name (e.g. PS5, Xbox Series X, DualSense controller, PXN wheel). You can also browse our full catalog on WhatsApp at +254720968268.",
+    "intent": "product_inquiry",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "no tell me the price of it",
+    "bot_response": "I couldn't find that product in our catalog. Try searching by name (e.g. PS5, Xbox Series X, DualSense controller, PXN wheel). You can also browse our full catalog on WhatsApp at +254720968268.",
+    "created_at": "2026-04-03T19:11:37.744Z"
+  },
+  {
+    "id": "chat-1775243521051",
+    "timestamp": "2026-04-03T19:11:55.560Z",
+    "message": "PS5 CONSOLE",
+    "reply": "I can help with product prices, repair services, and booking appointments. Try asking about a specific product, describing your console issue, or saying you'd like to book a service. You can also reach us on WhatsApp at +254720968268.",
+    "intent": "general",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "PS5 CONSOLE",
+    "bot_response": "I can help with product prices, repair services, and booking appointments. Try asking about a specific product, describing your console issue, or saying you'd like to book a service. You can also reach us on WhatsApp at +254720968268.",
+    "created_at": "2026-04-03T19:11:55.560Z"
+  },
+  {
+    "id": "chat-1775243796517",
+    "timestamp": "2026-04-03T19:16:32.661Z",
+    "message": "Price of a mousepad",
+    "reply": "I couldn't find that product in our catalog. Try searching by name (e.g. PS5, Xbox Series X, DualSense controller, PXN wheel). You can also browse our full catalog on WhatsApp at +254720968268.",
+    "intent": "product_inquiry",
+    "conversion": null,
+    "source": "db_processed",
+    "user_message": "Price of a mousepad",
+    "bot_response": "I couldn't find that product in our catalog. Try searching by name (e.g. PS5, Xbox Series X, DualSense controller, PXN wheel). You can also browse our full catalog on WhatsApp at +254720968268.",
+    "created_at": "2026-04-03T19:16:32.661Z"
+  }
+]

@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAMEPLAN Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body.admin-page {
+      background: radial-gradient(circle at top, rgba(34, 197, 94, 0.08), transparent 55%), #020617;
+    }
+    .admin-shell {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 0;
+      min-height: calc(100vh - 70px);
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .admin-sidebar {
+      border-right: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 1rem 0.75rem;
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.15), transparent 55%), #020617;
+    }
+    .admin-sidebar h2 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+      margin-bottom: 0.9rem;
+    }
+    .admin-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .admin-nav-item {
+      width: 100%;
+      text-align: left;
+      padding: 0.45rem 0.6rem;
+      border-radius: 0.55rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+    .admin-nav-item:hover {
+      background: rgba(15, 23, 42, 0.9);
+      color: #fff;
+    }
+    .admin-nav-item.is-active {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(34, 197, 94, 0.35);
+      color: #fff;
+    }
+    .admin-main {
+      padding: 1.2rem 1.5rem 2rem;
+    }
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+    .admin-topbar-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .admin-topbar-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .admin-topbar-controls label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+    #admin-key-input {
+      max-width: 9rem;
+      padding: 0.35rem 0.55rem;
+      font-size: 0.8rem;
+    }
+    .admin-section {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .admin-section.is-active {
+      display: block;
+    }
+    .admin-section h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.6rem;
+    }
+    .admin-two-col {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1rem;
+    }
+    .admin-card {
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.18), transparent 55%), #020617;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .admin-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.35rem;
+      font-size: 0.9rem;
+    }
+    .admin-card-body {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      max-height: 260px;
+      overflow: auto;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .admin-table th,
+    .admin-table td {
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 0.35rem 0.4rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .admin-table th {
+      font-weight: 600;
+      color: var(--text-muted);
+      position: sticky;
+      top: 0;
+      background: #020617;
+      z-index: 1;
+    }
+    .admin-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+    }
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+    }
+    .admin-badge-success {
+      border-color: rgba(34, 197, 94, 0.7);
+      color: #bbf7d0;
+    }
+    .admin-flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    .admin-form-row .form-group {
+      margin-bottom: 0;
+    }
+    #admin-global-status {
+      min-height: 1.1rem;
+      font-size: 0.8rem;
+    }
+    canvas.admin-chart {
+      max-width: 100%;
+      background-color: rgba(15, 23, 42, 0.9);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 0.5rem;
+    }
+    @media (max-width: 900px) {
+      .admin-shell {
+        grid-template-columns: 1fr;
+      }
+      .admin-sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+        display: flex;
+        flex-direction: column;
+      }
+      .admin-two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="index-page admin-page">
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="logo">GAMEPLAN</a>
+      <div class="nav-actions" style="margin-left:auto;">
+        <span style="font-size:0.8rem;color:var(--text-soft);">Admin Dashboard</span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="section" style="padding-top:1.4rem;">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <h2>Admin Areas</h2>
+        <div class="admin-nav">
+          <button class="admin-nav-item is-active" data-section="overview">Overview</button>
+          <button class="admin-nav-item" data-section="repairs">Repair Tickets</button>
+          <button class="admin-nav-item" data-section="bookings">Bookings</button>
+          <button class="admin-nav-item" data-section="products">Products</button>
+          <button class="admin-nav-item" data-section="premium-gears">Premium Gears</button>
+          <button class="admin-nav-item" data-section="repair-supplies">Repair Supplies</button>
+          <button class="admin-nav-item" data-section="peripherals">Gaming Peripherals</button>
+          <button class="admin-nav-item" data-section="shop">Shop</button>
+          <button class="admin-nav-item" data-section="orders">Orders</button>
+          <button class="admin-nav-item" data-section="reports">Reports & Analytics</button>
+          <button class="admin-nav-item" data-section="settings">System & AI Settings</button>
+          <button class="admin-nav-item" data-section="communications">Communications</button>
+          <button class="admin-nav-item" data-section="security">Security & Logs</button>
+        </div>
+      </aside>
+
+      <section class="admin-main">
+        <div class="admin-topbar">
+          <div class="admin-topbar-title">GAMEPLAN Operations Hub</div>
+          <div class="admin-topbar-controls">
+            <div class="admin-session-info">
+              <span class="admin-badge" id="admin-session-role">Role: -</span>
+              <span class="admin-badge" id="admin-session-status">Session: -</span>
+              <span class="admin-badge" id="admin-session-expiry">Expires: -</span>
+            </div>
+            <button class="btn btn-outline btn-primary--small" id="admin-refresh">Refresh</button>
+            <button class="btn btn-secondary btn-primary--small" id="admin-logout">Logout</button>
+          </div>
+        </div>
+        <p id="admin-global-status" class="form-status"></p>
+
+        <!-- OVERVIEW SECTION -->
+        <section id="section-overview" class="admin-section is-active">
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Recent Chats</span>
+                  <span class="admin-badge" id="overview-chat-count">0 chats</span>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Message</th>
+                        <th>Intent</th>
+                        <th>Result</th>
+                      </tr>
+                    </thead>
+                    <tbody id="overview-chats-body"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Chat Paths & Top Products</span>
+                </div>
+                <div class="admin-card-body admin-flex-row" style="gap:1rem; align-items:flex-start;">
+                  <div style="flex:1; min-width:0;">
+                    <strong style="font-size:0.8rem;">By Page</strong>
+                    <table class="admin-table" style="margin-top:0.3rem;">
+                      <thead>
+                        <tr><th>Path</th><th>Chats</th></tr>
+                      </thead>
+                      <tbody id="overview-paths-body"></tbody>
+                    </table>
+                  </div>
+                  <div style="flex:1; min-width:0;">
+                    <strong style="font-size:0.8rem;">Top Products in Chats</strong>
+                    <table class="admin-table" style="margin-top:0.3rem;">
+                      <thead>
+                        <tr><th>Product</th><th>Count</th></tr>
+                      </thead>
+                      <tbody id="overview-top-products-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Sales Snapshot</span>
+                </div>
+                <div class="admin-card-body">
+                  <div class="admin-flex-row" style="margin-bottom:0.4rem;">
+                    <div>
+                      <div style="font-size:0.8rem;color:var(--text-soft);">Total Revenue</div>
+                      <div id="overview-total-revenue" style="font-size:1rem;font-weight:600;">KES 0</div>
+                    </div>
+                    <div>
+                      <div style="font-size:0.8rem;color:var(--text-soft);">Pending Revenue</div>
+                      <div id="overview-pending-revenue" style="font-size:1rem;font-weight:600;">KES 0</div>
+                    </div>
+                  </div>
+                  <div class="admin-flex-row">
+                    <div>
+                      <span class="admin-badge" id="overview-orders-count">0 orders</span>
+                    </div>
+                    <div>
+                      <span class="admin-badge admin-badge-success" id="overview-completed-orders">0 completed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Quick Links</span>
+                </div>
+                <div class="admin-card-body">
+                  <ul style="padding-left:1rem;">
+                    <li><a href="#" data-jump="repairs" class="link">Jump to Repair Tickets</a></li>
+                    <li><a href="#" data-jump="bookings" class="link">Jump to Bookings</a></li>
+                    <li><a href="#" data-jump="products" class="link">Jump to Products</a></li>
+                    <li><a href="#" data-jump="reports" class="link">Jump to Reports & Analytics</a></li>
+                    <li><a href="#" data-jump="settings" class="link">Jump to System & AI Settings</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPAIR TICKETS SECTION -->
+        <section id="section-repairs" class="admin-section">
+          <h3>Repair Tickets & Job Tracking</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>All Repair Tickets</span>
+                  <button class="btn btn-outline btn-primary--small" id="repairs-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Console</th>
+                        <th>Status</th>
+                        <th>Updated</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="repairs-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Create / Update Ticket</span>
+                </div>
+                <div class="admin-card-body">
+                  <form id="repair-form" class="generic-form">
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="repair-id">Ticket ID (optional)</label>
+                        <input id="repair-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="repair-customer">Customer Name</label>
+                        <input id="repair-customer" name="customerName" type="text" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="repair-whatsapp">WhatsApp</label>
+                        <input id="repair-whatsapp" name="whatsapp" type="tel" placeholder="e.g. +2547..." />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="repair-console">Console</label>
+                        <input id="repair-console" name="console" type="text" placeholder="PS5, PS4, Xbox..." />
+                      </div>
+                      <div class="form-group">
+                        <label for="repair-status">Status</label>
+                        <select id="repair-status" name="status">
+                          <option value="Received">Received</option>
+                          <option value="Diagnosing">Diagnosing</option>
+                          <option value="Repairing">Repairing</option>
+                          <option value="Ready">Ready</option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="repair-issue">Issue Description</label>
+                      <textarea id="repair-issue" name="issue" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="repair-notes">Internal Notes</label>
+                      <textarea id="repair-notes" name="notes" rows="2"></textarea>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Ticket</button>
+                    </div>
+                    <p id="repair-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOKINGS SECTION -->
+        <section id="section-bookings" class="admin-section">
+          <h3>Bookings & Appointments</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>All Bookings</span>
+                  <button class="btn btn-outline btn-primary--small" id="bookings-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Console</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="bookings-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header admin-flex-row">
+                  <span>Create / Manage Booking</span>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="booking-new">New Booking</button>
+                </div>
+                <div class="admin-card-body">
+                  <form id="booking-form" class="generic-form">
+                    <input type="hidden" id="booking-mode" value="create" />
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="booking-id">Booking ID (optional)</label>
+                        <input id="booking-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="booking-customer">Customer Name</label>
+                        <input id="booking-customer" name="customerName" type="text" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="booking-whatsapp">WhatsApp</label>
+                        <input id="booking-whatsapp" name="whatsapp" type="tel" placeholder="e.g. +2547..." />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="booking-console">Console</label>
+                        <input id="booking-console" name="console" type="text" placeholder="PS5, PS4, Xbox..." />
+                      </div>
+                      <div class="form-group">
+                        <label for="booking-service">Service</label>
+                        <input id="booking-service" name="service" type="text" placeholder="Repair, upgrade, install..." />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="booking-date">Date</label>
+                        <input id="booking-date" name="date" type="date" />
+                      </div>
+                      <div class="form-group">
+                        <label for="booking-time">Time Slot</label>
+                        <input id="booking-time" name="timeSlot" type="time" />
+                      </div>
+                      <div class="form-group">
+                        <label for="booking-technician">Technician</label>
+                        <input id="booking-technician" name="technician" type="text" placeholder="Technician name" />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="booking-status">Status</label>
+                        <select id="booking-status" name="status">
+                          <option value="pending">Pending</option>
+                          <option value="confirmed">Confirmed</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="booking-notes">Notes</label>
+                      <textarea id="booking-notes" name="notes" rows="2"></textarea>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Booking</button>
+                    </div>
+                    <p id="booking-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRODUCTS SECTION -->
+        <section id="section-products" class="admin-section">
+          <h3>Products & Inventory</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Product Catalog</span>
+                  <div style="display: flex; gap: 0.4rem;">
+                    <button class="btn btn-outline btn-primary--small" id="products-refresh">Reload</button>
+                    <button class="btn btn-outline btn-primary--small" id="products-delete-selected" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.5); color: #fca5a5;">Delete Selected</button>
+                  </div>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 30px;"><input type="checkbox" id="products-select-all" title="Select all" /></th>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price (KES)</th>
+                        <th>Stock</th>
+                      </tr>
+                    </thead>
+                    <tbody id="products-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header admin-flex-row">
+                  <span>Create / Edit Product</span>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="product-new">New Product</button>
+                </div>
+                <div class="admin-card-body">
+                  <form id="product-form" class="generic-form">
+                    <input type="hidden" id="product-mode" value="create" />
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="product-id">Product ID (optional)</label>
+                        <input id="product-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="product-name">Name</label>
+                        <input id="product-name" name="name" type="text" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <input id="product-category" name="category" type="text" placeholder="console, accessory..." />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="product-price">Price (KES)</label>
+                        <input id="product-price" name="priceKES" type="number" step="1" />
+                      </div>
+                      <div class="form-group">
+                        <label for="product-stock">Stock Qty</label>
+                        <input id="product-stock" name="stockQty" type="number" step="1" />
+                      </div>
+                      <div class="form-group">
+                        <label for="product-restock">Restock ETA</label>
+                        <input id="product-restock" name="restockEta" type="date" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="product-description">Description</label>
+                      <textarea id="product-description" name="description" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="product-aliases">Aliases (comma-separated)</label>
+                      <input id="product-aliases" name="aliases" type="text" placeholder="ps4, playstation 4..." />
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="product-image-file">Primary Image (JPG or PNG)</label>
+                        <input id="product-image-file" name="imageFile" type="file" accept="image/png,image/jpeg" />
+                      </div>
+                      <div class="form-group">
+                        <label>Preview</label>
+                        <div id="product-image-preview-wrapper" style="border:1px dashed rgba(148,163,184,0.4);border-radius:0.5rem;padding:0.5rem;min-height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                          <span id="product-image-preview-placeholder" style="font-size:0.8rem;color:var(--text-soft);">No image selected</span>
+                          <img id="product-image-preview" alt="Product preview" style="max-width:100%;max-height:110px;display:none;border-radius:0.5rem;" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="product-image-url">Image URL (optional)</label>
+                      <input id="product-image-url" name="imageUrl" type="url" placeholder="https://..." />
+                    </div>
+                    <div class="form-group">
+                      <label>
+                        <input id="product-upgraded" name="upgraded" type="checkbox" />
+                        Mark as Upgraded Product
+                      </label>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Product</button>
+                    </div>
+                    <p id="product-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PREMIUM GEARS SECTION -->
+        <section id="section-premium-gears" class="admin-section">
+          <h3>Premium Gaming Gears</h3>
+          <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:0.75rem;">Manage premium, upgraded controllers and high-end gaming gear. These items appear in the Premium Gaming Gears section on the homepage.</p>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Premium Gears Catalog</span>
+                  <button class="btn btn-outline btn-primary--small" id="premium-gears-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price (KES)</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="premium-gears-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header admin-flex-row">
+                  <span>Add / Edit Premium Gear</span>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="premium-gear-new">New Premium Gear</button>
+                </div>
+                <div class="admin-card-body">
+                  <form id="premium-gear-form" class="generic-form">
+                    <input type="hidden" id="premium-gear-mode" value="create" />
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="premium-gear-id">ID (optional)</label>
+                        <input id="premium-gear-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="premium-gear-name">Name</label>
+                        <input id="premium-gear-name" name="name" type="text" required />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="premium-gear-category">Category</label>
+                        <input id="premium-gear-category" name="category" type="text" placeholder="Controller, Headset, Wheel..." />
+                      </div>
+                      <div class="form-group">
+                        <label for="premium-gear-price">Price (KES)</label>
+                        <input id="premium-gear-price" name="priceKES" type="number" step="1" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="premium-gear-description">Description</label>
+                      <textarea id="premium-gear-description" name="description" rows="2" placeholder="Premium features, customization details..."></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="premium-gear-compatibility">Compatibility</label>
+                      <input id="premium-gear-compatibility" name="compatibility" type="text" placeholder="PS5, Xbox, PC..." />
+                    </div>
+                    
+                    <!-- Image Upload Section -->
+                    <div style="border:1px solid rgba(148,163,184,0.3);border-radius:0.5rem;padding:0.75rem;margin-bottom:0.75rem;">
+                      <p style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;">Product Image</p>
+                      <div class="admin-form-row">
+                        <div class="form-group">
+                          <label for="premium-gear-image-file">Upload from Computer</label>
+                          <input id="premium-gear-image-file" name="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+                          <small style="color:var(--text-soft);font-size:0.75rem;">JPG, PNG, WebP, or GIF</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="premium-gear-image-url">Or paste Image URL</label>
+                          <input id="premium-gear-image-url" name="imageUrl" type="url" placeholder="https://example.com/image.jpg" />
+                          <small style="color:var(--text-soft);font-size:0.75rem;">From internet (Unsplash, etc.)</small>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Image Preview</label>
+                        <div id="premium-gear-image-preview-wrapper" style="border:1px dashed rgba(148,163,184,0.4);border-radius:0.5rem;padding:0.5rem;min-height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(15,23,42,0.5);">
+                          <span id="premium-gear-image-preview-placeholder" style="font-size:0.8rem;color:var(--text-soft);">No image selected – upload a file or paste a URL</span>
+                          <img id="premium-gear-image-preview" alt="Premium gear preview" style="max-width:100%;max-height:130px;display:none;border-radius:0.5rem;" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="booking-actions" style="margin-top:0.5rem;display:flex;gap:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Premium Gear</button>
+                      <button type="button" class="btn btn-secondary btn-primary--small" id="premium-gear-clear">Clear Form</button>
+                    </div>
+                    <p id="premium-gear-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPAIR SUPPLIES SECTION -->
+        <section id="section-repair-supplies" class="admin-section">
+          <h3>Repair Supplies (Images & Prices)</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Repair Supplies Catalog</span>
+                  <button class="btn btn-outline btn-primary--small" id="repair-supplies-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price (KES)</th>
+                        <th>Image</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="repair-supplies-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header admin-flex-row">
+                  <span>Add / Edit Repair Supply</span>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="repair-supply-new">New Repair Supply</button>
+                </div>
+                <div class="admin-card-body">
+                  <form id="repair-supply-form" class="generic-form">
+                    <input type="hidden" id="repair-supply-mode" value="create" />
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="repair-supply-id">ID (optional)</label>
+                        <input id="repair-supply-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="repair-supply-name">Name</label>
+                        <input id="repair-supply-name" name="name" type="text" required />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="repair-supply-price">Price (KES)</label>
+                        <input id="repair-supply-price" name="priceKES" type="number" step="1" />
+                      </div>
+                      <div class="form-group">
+                        <label for="repair-supply-image">Image URL (or upload below)</label>
+                        <input id="repair-supply-image" name="imageUrl" type="url" placeholder="https://... (or will be filled when you upload)" />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="repair-supply-image-file">Upload Image</label>
+                        <input id="repair-supply-image-file" type="file" accept="image/*" />
+                      </div>
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-soft);margin-bottom:0.4rem;">
+                      You can paste an image URL or upload from your computer. These items will appear in the Repair Supplies section on the website.
+                    </p>
+                    <div class="booking-actions" style="margin-top:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Repair Supply</button>
+                    </div>
+                    <p id="repair-supply-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GAMING PERIPHERALS & SETUP SECTION -->
+        <section id="section-peripherals" class="admin-section">
+          <h3>Gaming Peripherals &amp; Setup</h3>
+          <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:0.75rem;">Manage gaming peripherals such as headsets, keyboards, mice, monitors, capture cards, and chairs. These items appear in the Gaming Peripherals &amp; Setup section on the homepage.</p>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Peripherals Catalog</span>
+                  <button class="btn btn-outline btn-primary--small" id="peripherals-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price (KES)</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="peripherals-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header admin-flex-row">
+                  <span>Add / Edit Peripheral</span>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="peripherals-new">New Peripheral</button>
+                </div>
+                <div class="admin-card-body">
+                  <form id="peripherals-form" class="generic-form">
+                    <input type="hidden" id="peripherals-mode" value="create" />
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="peripherals-id">ID (optional)</label>
+                        <input id="peripherals-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="peripherals-name">Name</label>
+                        <input id="peripherals-name" name="name" type="text" required />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="peripherals-category">Category</label>
+                        <input id="peripherals-category" name="category" type="text" placeholder="Headset, Keyboard, Mouse, Monitor..." />
+                      </div>
+                      <div class="form-group">
+                        <label for="peripherals-price">Price (KES)</label>
+                        <input id="peripherals-price" name="priceKES" type="number" step="1" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="peripherals-description">Description</label>
+                      <textarea id="peripherals-description" name="description" rows="2" placeholder="Peripheral features and details..."></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="peripherals-compatibility">Compatibility</label>
+                      <input id="peripherals-compatibility" name="compatibility" type="text" placeholder="PS5, Xbox, PC..." />
+                    </div>
+                    <!-- Image Upload Section -->
+                    <div style="border:1px solid rgba(148,163,184,0.3);border-radius:0.5rem;padding:0.75rem;margin-bottom:0.75rem;">
+                      <p style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;">Product Image</p>
+                      <div class="admin-form-row">
+                        <div class="form-group">
+                          <label for="peripherals-image-file">Upload from Computer</label>
+                          <input id="peripherals-image-file" name="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+                          <small style="color:var(--text-soft);font-size:0.75rem;">JPG, PNG, WebP, or GIF</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="peripherals-image-url">Or paste Image URL</label>
+                          <input id="peripherals-image-url" name="imageUrl" type="url" placeholder="https://example.com/image.jpg" />
+                          <small style="color:var(--text-soft);font-size:0.75rem;">From internet (Unsplash, etc.)</small>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Image Preview</label>
+                        <div id="peripherals-image-preview-wrapper" style="border:1px dashed rgba(148,163,184,0.4);border-radius:0.5rem;padding:0.5rem;min-height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(15,23,42,0.5);">
+                          <span id="peripherals-image-preview-placeholder" style="font-size:0.8rem;color:var(--text-soft);">No image selected – upload a file or paste a URL</span>
+                          <img id="peripherals-image-preview" alt="Peripheral preview" style="max-width:100%;max-height:130px;display:none;border-radius:0.5rem;" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.5rem;display:flex;gap:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Peripheral</button>
+                      <button type="button" class="btn btn-secondary btn-primary--small" id="peripherals-clear">Clear Form</button>
+                    </div>
+                    <p id="peripherals-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SHOP SECTION -->
+        <section id="section-shop" class="admin-section">
+          <h3>Shop (Featured Products)</h3>
+          <p style="font-size:0.85rem;color:var(--text-soft);margin-bottom:0.75rem;">Manage all products in the catalog. Edit prices and images for products displayed on the website. Click a row or the Edit button to modify a product.</p>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>All Products Catalog</span>
+                  <div style="display: flex; gap: 0.4rem;">
+                    <button class="btn btn-outline btn-primary--small" id="shop-refresh">Reload</button>
+                    <button class="btn btn-outline btn-primary--small" id="shop-delete-selected" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.5); color: #fca5a5;">Delete Selected</button>
+                  </div>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 30px;"><input type="checkbox" id="shop-select-all" title="Select all" /></th>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price (KES)</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="shop-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header admin-flex-row">
+                  <span>Edit Product (Price & Image)</span>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="shop-new">New Product</button>
+                </div>
+                <div class="admin-card-body">
+                  <form id="shop-form" class="generic-form">
+                    <input type="hidden" id="shop-mode" value="create" />
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="shop-id">ID (optional)</label>
+                        <input id="shop-id" name="id" type="text" placeholder="Leave blank to auto-generate" />
+                      </div>
+                      <div class="form-group">
+                        <label for="shop-name">Name</label>
+                        <input id="shop-name" name="name" type="text" required />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="shop-category">Category</label>
+                        <input id="shop-category" name="category" type="text" placeholder="Console, Accessory, Game..." />
+                      </div>
+                      <div class="form-group">
+                        <label for="shop-price">Price (KES)</label>
+                        <input id="shop-price" name="priceKES" type="number" step="1" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="shop-description">Description</label>
+                      <textarea id="shop-description" name="description" rows="2" placeholder="Product description..."></textarea>
+                    </div>
+                    
+                    <!-- Image Upload Section -->
+                    <div style="border:1px solid rgba(148,163,184,0.3);border-radius:0.5rem;padding:0.75rem;margin-bottom:0.75rem;">
+                      <p style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;">Product Image</p>
+                      <div class="admin-form-row">
+                        <div class="form-group">
+                          <label for="shop-image-file">Upload from Computer</label>
+                          <input id="shop-image-file" name="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+                          <small style="color:var(--text-soft);font-size:0.75rem;">JPG, PNG, WebP, or GIF</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="shop-image-url">Or paste Image URL</label>
+                          <input id="shop-image-url" name="imageUrl" type="url" placeholder="https://example.com/image.jpg" />
+                          <small style="color:var(--text-soft);font-size:0.75rem;">From internet (Unsplash, etc.)</small>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Image Preview</label>
+                        <div id="shop-image-preview-wrapper" style="border:1px dashed rgba(148,163,184,0.4);border-radius:0.5rem;padding:0.5rem;min-height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(15,23,42,0.5);">
+                          <span id="shop-image-preview-placeholder" style="font-size:0.8rem;color:var(--text-soft);">No image selected – upload a file or paste a URL</span>
+                          <img id="shop-image-preview" alt="Shop product preview" style="max-width:100%;max-height:130px;display:none;border-radius:0.5rem;" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="booking-actions" style="margin-top:0.5rem;display:flex;gap:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Save Changes</button>
+                      <button type="button" class="btn btn-secondary btn-primary--small" id="shop-clear">Clear Form</button>
+                    </div>
+                    <p id="shop-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ORDERS SECTION -->
+        <section id="section-orders" class="admin-section">
+          <h3>Orders & Payments</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Orders</span>
+                  <button class="btn btn-outline btn-primary--small" id="orders-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Total (KES)</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="orders-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Update Order Status & Payment</span>
+                </div>
+                <div class="admin-card-body">
+                  <form id="order-form" class="generic-form">
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="order-id">Order ID</label>
+                        <input id="order-id" name="id" type="text" required />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="order-payment-status">Payment Status</label>
+                        <select id="order-payment-status" name="paymentStatus">
+                          <option value="pending">Pending</option>
+                          <option value="completed">Completed</option>
+                          <option value="failed">Failed</option>
+                          <option value="refunded">Refunded</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="order-status">Order Status</label>
+                        <select id="order-status" name="status">
+                          <option value="pending">Pending</option>
+                          <option value="processing">Processing</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Update Order</button>
+                    </div>
+                    <p id="order-form-status" class="form-status"></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTS SECTION -->
+        <section id="section-reports" class="admin-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;">
+            <h3 style="margin:0;">Reports & Analytics</h3>
+            <button class="btn btn-outline btn-primary--small" id="reports-refresh">Reload</button>
+          </div>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Sales Revenue</span>
+                </div>
+                <div class="admin-card-body">
+                  <canvas id="revenue-chart" class="admin-chart" height="160"></canvas>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Products Sold (Tracking Graph)</span>
+                </div>
+                <div class="admin-card-body">
+                  <canvas id="product-sales-chart" class="admin-chart" height="160"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS SECTION -->
+        <section id="section-settings" class="admin-section">
+          <h3>System & AI Settings</h3>
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span>Site & AI Configuration</span>
+            </div>
+            <div class="admin-card-body">
+              <form id="settings-form" class="generic-form">
+                <div class="admin-form-row">
+                  <div class="form-group">
+                    <label for="settings-nairobi24h">24h Nairobi Delivery</label>
+                    <select id="settings-nairobi24h" name="delivery.nairobi24h">
+                      <option value="true">Enabled</option>
+                      <option value="false">Disabled</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="settings-dynamic-pricing">AI Dynamic Pricing Suggestions</label>
+                    <select id="settings-dynamic-pricing" name="ai.dynamicPricingSuggestions">
+                      <option value="false">Disabled</option>
+                      <option value="true">Enabled</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="settings-chatbot-tone">Chatbot Tone</label>
+                    <select id="settings-chatbot-tone" name="ai.chatbotTone">
+                      <option value="professional-warm">Professional &amp; warm</option>
+                      <option value="technical">More technical</option>
+                      <option value="casual">More casual</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="admin-form-row">
+                  <div class="form-group">
+                    <label for="settings-business-hours">Business Hours (JSON)</label>
+                    <textarea id="settings-business-hours" name="businessHours" rows="2" placeholder='e.g. {"mon-fri":"9:00-18:00"}'></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="settings-booking-rules">Booking Rules (JSON)</label>
+                    <textarea id="settings-booking-rules" name="bookingRules" rows="2" placeholder='e.g. {"minNoticeHours":2}'></textarea>
+                  </div>
+                </div>
+
+                <div class="admin-form-row">
+                  <div class="form-group">
+                    <label for="settings-tax-rate">Tax Rate (%)</label>
+                    <input id="settings-tax-rate" name="taxRate" type="number" step="0.01" placeholder="e.g. 16" />
+                  </div>
+                  <div class="form-group">
+                    <label for="settings-service-fee">Service Fee (KES)</label>
+                    <input id="settings-service-fee" name="serviceFee" type="number" step="0.01" placeholder="e.g. 300" />
+                  </div>
+                </div>
+
+                <div class="booking-actions" style="margin-top:0.5rem;">
+                  <button type="submit" class="btn btn-primary btn-primary--small">Save Settings</button>
+                  <button type="button" class="btn btn-secondary btn-primary--small" id="settings-reload">Reload from Server</button>
+                </div>
+                <p id="settings-form-status" class="form-status"></p>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- COMMUNICATIONS SECTION -->
+        <section id="section-communications" class="admin-section">
+          <h3>Communications</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+              <div class="admin-card-header">
+                  <span>Completed Repairs</span>
+                  <button class="btn btn-outline btn-primary--small" id="communications-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Console</th>
+                        <th>Status</th>
+                        <th>Contact</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="comms-repairs-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Notify Customer</span>
+                </div>
+                <div class="admin-card-body">
+                  <form id="comms-form" class="generic-form">
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="comms-repair-id">Repair / Ticket ID</label>
+                        <input type="text" id="comms-repair-id" readonly />
+                      </div>
+                      <div class="form-group">
+                        <label for="comms-contact">Customer Contact</label>
+                        <input type="text" id="comms-contact" readonly />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="comms-booking-id">Booking ID (optional)</label>
+                        <input type="text" id="comms-booking-id" />
+                      </div>
+                      <div class="form-group">
+                        <label for="comms-order-id">Order ID (optional)</label>
+                        <input type="text" id="comms-order-id" />
+                      </div>
+                    </div>
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="comms-product-id">Product ID (optional)</label>
+                        <input type="text" id="comms-product-id" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="comms-summary">Summary</label>
+                      <textarea id="comms-summary" rows="2" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="comms-message">Message to Customer</label>
+                      <textarea id="comms-message" rows="4" required></textarea>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.5rem;">
+                      <button type="submit" class="btn btn-primary btn-primary--small">Send Notification</button>
+                    </div>
+                    <p id="comms-form-status" class="form-status"></p>
+                  </form>
+                  <div style="margin-top:0.75rem;">
+                    <strong style="font-size:0.85rem;">Message History</strong>
+                    <div id="comms-history" style="margin-top:0.35rem;font-size:0.8rem;max-height:180px;overflow:auto;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECURITY & LOGS SECTION -->
+        <section id="section-security" class="admin-section">
+          <h3>Security & Logs</h3>
+          <div class="admin-two-col">
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Admin Key & Session Status</span>
+                </div>
+                <div class="admin-card-body">
+                  <p style="font-size:0.85rem;color:var(--text-soft);">
+                    The admin dashboard uses a shared secret key stored as an environment variable on the server
+                    (<span class="admin-mono">ADMIN_DASHBOARD_KEY</span>). That key is only managed here and is sent
+                    with each API request as <span class="admin-mono">Authorization: Bearer &lt;key&gt;</span>.
+                  </p>
+                  <form id="admin-key-form" class="generic-form" style="margin-top:0.6rem;">
+                    <div class="admin-form-row">
+                      <div class="form-group">
+                        <label for="admin-key-input">Admin API Key</label>
+                        <input type="password" id="admin-key-input" placeholder="••••" />
+                      </div>
+                    </div>
+                    <div class="booking-actions" style="margin-top:0.4rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
+                      <button type="button" class="btn btn-secondary btn-primary--small" id="admin-key-save">Save Key</button>
+                    </div>
+                  </form>
+                  <p style="font-size:0.85rem;color:var(--text-soft);margin-top:0.4rem;">
+                    Current browser key status: <span id="security-key-status" class="admin-badge">Unknown</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <span>Recent Audit Log</span>
+                  <button class="btn btn-outline btn-primary--small" id="logs-refresh">Reload</button>
+                </div>
+                <div class="admin-card-body">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Ref</th>
+                      </tr>
+                    </thead>
+                    <tbody id="logs-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

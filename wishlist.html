@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wishlist | GAMEPLAN</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="index-page">
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="logo">GAMEPLAN</a>
+      <ul class="nav-links">
+        <li><a href="index.html#hero" class="nav-link">Home</a></li>
+        <li><a href="services.html" class="nav-link">Services</a></li>
+        <li><a href="shop.html" class="nav-link">Shop</a></li>
+        <li><a href="learn.html" class="nav-link">Learn</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="index.html#booking" class="btn btn-primary btn-primary--small">Book a Repair</a>
+        <a href="wishlist.html" class="btn btn-outline btn-wishlist btn-wishlist--active">
+          ♥ Wishlist
+        </a>
+        <a href="cart.html" class="btn btn-secondary btn-cart">
+          Cart <span id="cart-count" class="cart-count-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container section-inner">
+        <header class="section-header">
+          <h1>Your Wishlist</h1>
+          <p>Products you have saved for later. You can move items to your cart or remove them from your wishlist.</p>
+        </header>
+        <div id="wishlist-empty" class="meta" style="font-size:0.9rem;color:var(--text-soft);display:none;">
+          Your wishlist is empty. Browse the shop and tap Wishlist on products you like.
+        </div>
+        <div id="wishlist-grid" class="grid grid-4" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; <span id="year"></span> GAMEPLAN. All rights reserved.</p>
+      <a href="index.html#top" class="back-to-top">Back to top</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

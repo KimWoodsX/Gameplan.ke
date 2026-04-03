@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Instructions | GAMEPLAN</title>
+  <meta name="description" content="Complete your GAMEPLAN payment via MPESA. Follow the instructions, then confirm your payment via WhatsApp.">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="cart-page">
+  <div class="bg-cinematic" aria-hidden="true">
+    <div class="bglayer bg-layer--main"></div>
+  </div>
+  <header class="site-header" id="top">
+    <nav class="nav">
+      <a href="index.html" class="logo">GAMEPLAN</a>
+      <ul class="nav-links">
+        <li><a href="index.html#hero" class="nannaluufdds-nav-link">Home</a></li>
+        <li><a href="services.html" class="nav-link">Services</a></li>
+        <li><a href="shop.html" class="nav-link">Shop</a></li>
+        <li><a href="learn.html" class="nav-link">Learn</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="index.html#booking" class="btn btn-primary btn-primary--small">Book a Repair</a>
+        <a href="cart.html" class="btn btn-secondary btn-cart">
+          Cart <span id="cart-count" class="cart-count-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="payment-section" class="section">
+      <div class="container section-inner">
+        <header class="section-header">
+          <h1>Checkout Payment</h1>
+          <p>
+            Step 2 of your order: pay manually via MPESA using the details below, then tap "I Have Paid" to confirm via WhatsApp.
+          </p>
+        </header>
+        <div class="payment-layout">
+          <article class="payment-panel" aria-label="MPESA payment instructions">
+            <p class="payment-mpesa-heading">MPESA PAYMENT DETAILS</p>
+
+            <div class="payment-mpesa-row">
+              <p class="payment-mpesa-label">Send Money</p>
+              <p class="payment-mpesa-number">0720&nbsp;968&nbsp;268</p>
+            </div>
+
+            <div class="payment-mpesa-row">
+              <p class="payment-mpesa-label">Lipa na MPESA (Till)</p>
+              <p class="payment-mpesa-till">8314252</p>
+            </div>
+
+            <p class="payment-mpesa-note">
+              This is a manual payment step. We do <strong>not</strong> auto-charge your MPESA account. Use the numbers above in your own MPESA app, then confirm below.
+            </p>
+
+            <div class="payment-actions">
+              <div class="form-group payment-ref-input">
+                <label for="payment-ref">MPESA Confirmation Code</label>
+                <input type="text" id="payment-ref" placeholder="e.g. QJD3XYZ1A" />
+              </div>
+              <button type="button" id="payment-confirm-btn" class="btn btn-primary" disabled>
+                I Have Paid
+              </button>
+              <p id="payment-status" class="form-status" aria-live="polite"></p>
+            </div>
+          </article>
+
+          <article class="payment-panel" aria-label="Order summary">
+            <h3>Order Summary</h3>
+            <div id="payment-summary" style="font-size:0.9rem;"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; <span id="year"></span> GAMEPLAN. All rights reserved.</p>
+      <a href="#top" class="back-to-top">Back to top</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

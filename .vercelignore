@@ -1,0 +1,5 @@
+# Secrets — never deploy the real .env
+.env
+
+# Local dev only
+node_modules/

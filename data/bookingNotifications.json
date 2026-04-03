@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bn-1775245073715",
+    "booking_id": "B-1-1775243933346",
+    "customer_contact": "0111819908",
+    "customerName": "RHIMBA",
+    "message": "Hello RHIMBA! 👋\nYour booking at *GAMEPLAN* has been *confirmed* ✅\n📋 *Booking ID:* B-1-1775243933346\n🔧 *Service:* upgrade\n🎮 *Console:* ps5\n📅 *Date:* 2026-04-03\n⏰ *Time:* 13:22\n👨‍🔧 *Technician:* JOHN\n📝 *Notes:* BY 1.22 IT WILL BE FINISHED\nPlease arrive *10 minutes early*. To reschedule or cancel, reply here or call *+254720968268*.\nThank you for choosing GAMEPLAN — Nairobi's Gaming Hub! 🎮",
+    "status": "sent",
+    "sent_at": "2026-04-03T19:37:53.715Z"
+  },
+  {
+    "id": "bn-1775245093178",
+    "booking_id": "B-1-1775243933346",
+    "customer_contact": "0111819908",
+    "customerName": "RHIMBA",
+    "message": "Hello RHIMBA! 👋\nYour booking at *GAMEPLAN* has been *confirmed* ✅\n📋 *Booking ID:* B-1-1775243933346\n🔧 *Service:* upgrade\n🎮 *Console:* ps5\n📅 *Date:* 2026-04-03\n⏰ *Time:* 13:22\n👨‍🔧 *Technician:* JOHN\n📝 *Notes:* BY 1.22 IT WILL BE FINISHED\nPlease arrive *10 minutes early*. To reschedule or cancel, reply here or call *+254720968268*.\nThank you for choosing GAMEPLAN — Nairobi's Gaming Hub! 🎮",
+    "status": "sent",
+    "sent_at": "2026-04-03T19:38:13.178Z"
+  },
+  {
+    "id": "bn-1775245124766",
+    "booking_id": "B-1-1775243933346",
+    "customer_contact": "0111819908",
+    "customerName": "RHIMBA",
+    "message": "Hello RHIMBA! 👋\nYour booking at *GAMEPLAN* has been *confirmed* ✅\n📋 *Booking ID:* B-1-1775243933346\n🔧 *Service:* upgrade\n🎮 *Console:* ps5\n📅 *Date:* 2026-05-04\n⏰ *Time:* 13:22\n👨‍🔧 *Technician:* JOHN\n📝 *Notes:* BY 1.22 IT WILL BE FINISHED\nPlease arrive *10 minutes early*. To reschedule or cancel, reply here or call *+254720968268*.\nThank you for choosing GAMEPLAN — Nairobi's Gaming Hub! 🎮",
+    "status": "sent",
+    "sent_at": "2026-04-03T19:38:44.766Z"
+  },
+  {
+    "id": "bn-1775245333642",
+    "booking_id": "B-1-1775243933346",
+    "customer_contact": "0111819908",
+    "customerName": "RHIMBA",
+    "message": "Hello RHIMBA! 👋\nYour booking at *GAMEPLAN* has been *confirmed* ✅\n📋 *Booking ID:* B-1-1775243933346\n🔧 *Service:* upgrade\n🎮 *Console:* ps5\n📅 *Date:* 2026-05-04\n⏰ *Time:* 13:22\n👨‍🔧 *Technician:* JOHN\n📝 *Notes:* BY 1.22 IT WILL BE FINISHED\nPlease arrive *10 minutes early*. To reschedule or cancel, reply here or call *+254720968268*.\nThank you for choosing GAMEPLAN — Nairobi's Gaming Hub! 🎮",
+    "status": "sent",
+    "sent_at": "2026-04-03T19:42:13.642Z"
+  }
+]

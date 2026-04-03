@@ -1,0 +1,90 @@
+<svg width="7680" height="4320" viewBox="0 0 7680 4320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Base dark gradient -->
+    <linearGradient id="bg-base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="40%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+
+    <!-- Soft RGB airflow + glow -->
+    <radialGradient id="glow-blue" cx="0.2" cy="0.2" r="0.6">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#1d4ed8" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-green" cx="0.8" cy="0.8" r="0.6">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#16a34a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-neutral" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0%" stop-color="#e5e7eb" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#6b7280" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Futuristic pattern -->
+    <pattern id="grid" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect x="0" y="39" width="80" height="2" fill="#1f2937" opacity="0.8"/>
+      <rect x="39" y="0" width="2" height="80" fill="#1f2937" opacity="0.8"/>
+    </pattern>
+
+    <!-- Blur filter to keep text readable on top -->
+    <filter id="softBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <!-- Base -->
+  <rect width="7680" height="4320" fill="url(#bg-base)"/>
+  <rect width="7680" height="4320" fill="url(#grid)" opacity="0.18"/>
+
+  <!-- Glows / airflow -->
+  <rect width="7680" height="4320" fill="url(#glow-blue)"/>
+  <rect width="7680" height="4320" fill="url(#glow-green)"/>
+  <rect width="7680" height="4320" fill="url(#glow-neutral)" opacity="0.7"/>
+
+  <!-- Diagonal composition group, then blurred for softness -->
+  <g filter="url(#softBlur)">
+    <!-- Stylised PS5 on left -->
+    <g transform="translate(900 400) skewX(-10) scale(1.3)">
+      <path d="M40 120 C260 -40 540 -40 760 120 L760 2000 C540 1880 260 1880 40 2000 Z" fill="#020617"/>
+      <path d="M20 80 C260 -80 540 -80 780 80 L780 2040 C540 1920 260 1920 20 2040 Z" fill="#ffffff" fill-opacity="0.10"/>
+      <rect x="200" y="260" width="380" height="22" rx="11" fill="#60a5fa" fill-opacity="0.9"/>
+      <rect x="200" y="310" width="380" height="18" rx="9" fill="#1d4ed8" fill-opacity="0.9"/>
+    </g>
+
+    <!-- Stylised Xbox Series X on right -->
+    <g transform="translate(5300 520) skewX(6) scale(1.25)">
+      <rect x="0" y="0" width="880" height="2200" rx="80" fill="#020617" stroke="#111827" stroke-width="10"/>
+      <g transform="translate(120 80)" opacity="0.8">
+        <circle cx="80" cy="80" r="26" fill="#22c55e"/>
+        <circle cx="160" cy="80" r="24" fill="#16a34a"/>
+        <circle cx="240" cy="80" r="22" fill="#22c55e"/>
+        <circle cx="320" cy="80" r="20" fill="#16a34a"/>
+        <circle cx="400" cy="80" r="18" fill="#22c55e"/>
+      </g>
+    </g>
+
+    <!-- Central controllers, slightly forward -->
+    <g transform="translate(2500 2100) rotate(-12) scale(1.4)">
+      <!-- Front controller -->
+      <path d="M0 260 C60 40 340 0 520 0 C700 0 980 40 1040 260 C1080 420 1040 540 920 600 L720 680 C660 710 600 710 540 680 L340 600 C220 540 180 420 220 260 Z" fill="#020617" stroke="#111827" stroke-width="8"/>
+      <circle cx="380" cy="260" r="60" fill="#020617" stroke="#111827" stroke-width="6"/>
+      <circle cx="760" cy="260" r="60" fill="#020617" stroke="#111827" stroke-width="6"/>
+      <!-- Face buttons colour hints -->
+      <circle cx="880" cy="210" r="18" fill="#60a5fa"/>
+      <circle cx="920" cy="250" r="14" fill="#22c55e"/>
+      <circle cx="840" cy="250" r="12" fill="#f97316"/>
+    </g>
+
+    <!-- Cooling fans / airflow discs -->
+    <g transform="translate(1600 600)" opacity="0.7">
+      <circle cx="0" cy="0" r="420" fill="#020617" stroke="#111827" stroke-width="6"/>
+      <circle cx="0" cy="0" r="420" fill="none" stroke="#60a5fa" stroke-width="12" stroke-opacity="0.25"/>
+      <circle cx="2200" cy="260" r="380" fill="#020617" stroke="#111827" stroke-width="6"/>
+      <circle cx="2200" cy="260" r="380" fill="none" stroke="#22c55e" stroke-width="12" stroke-opacity="0.25"/>
+    </g>
+  </g>
+</svg>
