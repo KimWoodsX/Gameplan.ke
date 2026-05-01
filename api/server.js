@@ -50,10 +50,11 @@ function checkRateLimit(req, id, limit, windowMs) {
 const IS_VERCEL = !!(process.env.VERCEL || process.env.VERCEL_ENV);
 
 // On Vercel use /tmp/data (writable ephemeral storage).
-// Locally use the project data/ folder so data persists between restarts.
-const dataDir = IS_VERCEL ? "/tmp/data" : path.join(__dirname, "data");
+// Locally use the project root data/ folder so data persists between restarts.
+// NOTE: server.js lives inside api/, so __dirname === <project>/api — go up one level.
+const dataDir = IS_VERCEL ? "/tmp/data" : path.join(__dirname, "..", "data");
 // Always keep a reference to the bundled data directory so we can seed /tmp on cold start
-const _bundledDataDir = path.join(__dirname, "data");
+const _bundledDataDir = path.join(__dirname, "..", "data");
 
 // Simple JSON log storage and JSON-based admin data
 const chatsPath = path.join(dataDir, "chats.json");
@@ -816,16 +817,16 @@ app.get("/admin/logout", (req, res) => {
 
 // Guard the admin dashboard HTML itself
 app.get("/admin", requireAdminUi, (req, res) => {
-  res.sendFile(path.join(__dirname, "admin.html"));
+  res.sendFile(path.join(__dirname, "..", "admin.html"));
 });
 
 // Also guard direct access to admin.html
 app.get("/admin.html", requireAdminUi, (req, res) => {
-  res.sendFile(path.join(__dirname, "admin.html"));
+  res.sendFile(path.join(__dirname, "..", "admin.html"));
 });
 
-// Serve static frontend files from this directory
-app.use(express.static(__dirname));
+// Serve static frontend files from the parent directory
+app.use(express.static(path.join(__dirname, "..")));
 
 // =============================================================================
 // AI Chatbot — OpenAI integration + rule-based fallback
