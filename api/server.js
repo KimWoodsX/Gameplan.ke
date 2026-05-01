@@ -705,12 +705,25 @@ app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: false, limit: "5mb" }));
 
 // --- Simple admin UI session helpers (cookie-based) ---
+function getAdminPassword() {
+  const settings = readSettings();
+  if (settings && settings.adminPassword) {
+    return settings.adminPassword;
+  }
+  return ADMIN_KEY;
+}
+
+function getAdminCookieValue() {
+  return Buffer.from(getAdminPassword()).toString("base64");
+}
+
 function isAdminUiAuthenticated(req) {
   const cookie = req.headers["cookie"] || "";
+  const expected = "admin_ui_auth=" + getAdminCookieValue();
   return cookie
     .split(";")
     .map((part) => part.trim())
-    .some((part) => part === "admin_ui_auth=1");
+    .some((part) => part === expected);
 }
 
 function requireAdminUi(req, res, next) {
@@ -791,13 +804,14 @@ app.post("/admin/login", (req, res) => {
     return res.status(429).send("Too many login attempts. Please wait 15 minutes and try again.");
   }
   const password = (req.body && req.body.password) || "";
-  if (password && password === ADMIN_KEY) {
+  if (password && password === getAdminPassword()) {
     // Add Secure flag when the connection is HTTPS (direct or via proxy)
     const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https";
     const secureFlag = isHttps ? "; Secure" : "";
+    const cookieValue = getAdminCookieValue();
     res.setHeader(
       "Set-Cookie",
-      `admin_ui_auth=1; HttpOnly; SameSite=Lax; Path=/${secureFlag}`
+      `admin_ui_auth=${cookieValue}; HttpOnly; SameSite=Lax; Path=/${secureFlag}`
     );
     return res.redirect("/admin");
   }
@@ -827,6 +841,27 @@ app.get("/admin.html", requireAdminUi, (req, res) => {
 
 // Serve static frontend files from the parent directory
 app.use(express.static(path.join(__dirname, "..")));
+
+// Admin: change password
+app.put("/api/admin/password", requireAdmin, express.json(), (req, res) => {
+  const newPassword = req.body.newPassword;
+  if (!newPassword || newPassword.length < 4) {
+    return res.status(400).json({ error: "Password must be at least 4 characters long." });
+  }
+  const settings = readSettings();
+  settings.adminPassword = newPassword;
+  writeSettings(settings);
+  
+  const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https";
+  const secureFlag = isHttps ? "; Secure" : "";
+  const cookieValue = Buffer.from(newPassword).toString("base64");
+  res.setHeader(
+    "Set-Cookie",
+    `admin_ui_auth=${cookieValue}; HttpOnly; SameSite=Lax; Path=/${secureFlag}`
+  );
+  
+  return res.json({ success: true });
+});
 
 // =============================================================================
 // AI Chatbot — OpenAI integration + rule-based fallback
@@ -1206,7 +1241,7 @@ function requireAdmin(req, res, next) {
   // Also support direct Bearer token for tools / scripts.
   const auth = req.headers["authorization"] || "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : null;
-  if (token && token === ADMIN_KEY) return next();
+  if (token && token === getAdminPassword()) return next();
 
   return res.status(401).json({ error: "Unauthorized" });
 }

@@ -26,34 +26,13 @@
     el.style.color = isError ? "#f97373" : "#22c55e";
   }
 
-  function getAdminKey() {
-    try {
-      return window.localStorage.getItem(ADMIN_KEY_STORAGE) || "";
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function setAdminKey(value) {
-    try {
-      if (value) {
-        window.localStorage.setItem(ADMIN_KEY_STORAGE, value);
-      } else {
-        window.localStorage.removeItem(ADMIN_KEY_STORAGE);
-      }
-    } catch (e) {
-      // ignore
-    }
-  }
+  // Admin key storage removed in favor of secure HttpOnly cookies.
 
   async function apiRequest(path, options = {}) {
     const opts = { ...options };
     opts.headers = { ...(opts.headers || {}) };
 
-    const key = getAdminKey();
-    if (key) {
-      opts.headers["Authorization"] = `Bearer ${key}`;
-    }
+    // Auth is handled via secure session cookies automatically
     if (opts.body && !opts.headers["Content-Type"]) {
       opts.headers["Content-Type"] = "application/json";
     }
@@ -741,41 +720,45 @@
     });
   }
 
-  function initAdminKeyControls() {
-    const input = $("#admin-key-input");
-    const saveBtn = $("#admin-key-save");
+  function initAdminPasswordControls() {
+    const form = $("#admin-password-form");
+    const input = $("#admin-new-password");
     const logoutBtn = $("#admin-logout");
-    const statusBadge = $("#security-key-status");
+    const status = $("#admin-password-status");
 
-    const existing = getAdminKey();
-    if (input) input.value = ""; // never show actual key for safety
-    updateKeyStatus();
-
-    function updateKeyStatus() {
-      const hasKey = !!getAdminKey();
-      if (!statusBadge) return;
-      statusBadge.textContent = hasKey ? "Key set in browser" : "No key saved";
-      statusBadge.classList.toggle("admin-badge-success", hasKey);
-    }
-
-    if (saveBtn && input) {
-      saveBtn.addEventListener("click", () => {
+    if (form && input) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
         const val = input.value.trim();
-        setAdminKey(val);
-        input.value = "";
-        setStatus(val ? "Admin key saved locally." : "Admin key cleared.");
-        updateKeyStatus();
+        if (!val) return;
+        
+        if (status) {
+          status.textContent = "Updating password...";
+          status.style.color = "var(--text-soft)";
+        }
+        
+        try {
+          await apiRequest("/api/admin/password", {
+            method: "PUT",
+            body: JSON.stringify({ newPassword: val })
+          });
+          if (status) {
+            status.textContent = "Password updated successfully.";
+            status.style.color = "#22c55e";
+          }
+          input.value = "";
+        } catch (err) {
+          if (status) {
+            status.textContent = err.message || "Failed to update password";
+            status.style.color = "#f97373";
+          }
+        }
       });
     }
 
     if (logoutBtn) {
       logoutBtn.addEventListener("click", () => {
-        setAdminKey("");
-        if (input) input.value = "";
-        setStatus("Logging out…");
-        updateKeyStatus();
-        // Hit the server logout endpoint to clear the HttpOnly session cookie,
-        // then redirect to the login page.
+        setStatus("Logging out...");
         window.location.href = "/admin/logout";
       });
     }
@@ -2039,7 +2022,7 @@
       await ensureAdminAccess();
 
       initNav();
-      initAdminKeyControls();
+      initAdminPasswordControls();
       initRefreshControls();
       initRepairForm();
       initBookingForm();

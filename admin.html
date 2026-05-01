@@ -1276,24 +1276,20 @@
                 </div>
                 <div class="admin-card-body">
                   <p style="font-size:0.85rem;color:var(--text-soft);">
-                    The admin dashboard uses a shared secret key stored as an environment variable on the server
-                    (<span class="admin-mono">ADMIN_DASHBOARD_KEY</span>). That key is only managed here and is sent
-                    with each API request as <span class="admin-mono">Authorization: Bearer &lt;key&gt;</span>.
+                    You can change the admin dashboard password below. This will apply immediately and require any new sessions to use the updated password.
                   </p>
-                  <form id="admin-key-form" class="generic-form" style="margin-top:0.6rem;">
+                  <form id="admin-password-form" class="generic-form" style="margin-top:0.6rem;">
                     <div class="admin-form-row">
                       <div class="form-group">
-                        <label for="admin-key-input">Admin API Key</label>
-                        <input type="password" id="admin-key-input" placeholder="••••" />
+                        <label for="admin-new-password">New Password</label>
+                        <input type="password" id="admin-new-password" placeholder="••••" required minlength="4" />
                       </div>
                     </div>
                     <div class="booking-actions" style="margin-top:0.4rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
-                      <button type="button" class="btn btn-secondary btn-primary--small" id="admin-key-save">Save Key</button>
+                      <button type="submit" class="btn btn-secondary btn-primary--small" id="admin-password-save">Update Password</button>
                     </div>
                   </form>
-                  <p style="font-size:0.85rem;color:var(--text-soft);margin-top:0.4rem;">
-                    Current browser key status: <span id="security-key-status" class="admin-badge">Unknown</span>
-                  </p>
+                  <p id="admin-password-status" class="form-status" style="margin-top:0.4rem;"></p>
                 </div>
               </div>
             </div>
