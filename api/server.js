@@ -831,11 +831,13 @@ app.get("/admin/logout", (req, res) => {
 
 // Guard the admin dashboard HTML itself
 app.get("/admin", requireAdminUi, (req, res) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
   res.sendFile(path.join(__dirname, "admin.html"));
 });
 
 // Also guard direct access to admin.html
 app.get("/admin.html", requireAdminUi, (req, res) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
   res.sendFile(path.join(__dirname, "admin.html"));
 });
 
