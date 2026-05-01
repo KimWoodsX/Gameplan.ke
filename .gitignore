@@ -14,3 +14,6 @@ npm-debug.log*
 Thumbs.db
 
 .vercel
+
+# Shadow data dir created locally (real data lives in /data)
+api/data/
